@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group 'dev.cybo.tickets'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io/' }
+}
+
+dependencies {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.22") {
+        exclude module: 'opus-java'
+    }
+    implementation 'io.github.freya022:BotCommands:2.7.0'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'org.postgresql:postgresql:42.2.26'
+    implementation 'org.mongodb:mongodb-driver-sync:4.0.5'
+    implementation 'com.github.minndevelopment:emoji-java:master-SNAPSHOT'
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'dev.cybo.tickets.DevRoomTickets'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
