@@ -1,0 +1,18 @@
+{
+  "token": "",
+  "postgresql-hostname": "",
+  "postgresql-port": "",
+  "postgresql-username": "",
+  "postgresql-database": "",
+  "postgresql-password": "",
+  "mongodb-hostname": "",
+  "mongodb-port": "",
+  "mongodb-username": "",
+  "mongodb-database": "",
+  "mongodb-password": "",
+  "ticketOptions": [
+    "Ban Appeal",
+    "Staff Application",
+    "Player Report"
+  ]
+}
