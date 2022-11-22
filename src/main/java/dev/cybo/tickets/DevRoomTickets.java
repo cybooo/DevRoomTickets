@@ -1,9 +1,7 @@
 package dev.cybo.tickets;
 
 import com.freya02.botcommands.api.CommandsBuilder;
-import com.freya02.botcommands.api.components.DefaultComponentManager;
 import dev.cybo.tickets.database.MongoDB;
-import dev.cybo.tickets.database.PostgreSQL;
 import dev.cybo.tickets.events.Events;
 import dev.cybo.tickets.storage.Storage;
 import net.dv8tion.jda.api.JDA;
@@ -20,7 +18,6 @@ public class DevRoomTickets {
 
     private final DataObject config;
     private final JDA jda;
-    private final PostgreSQL postgreSQL;
     private final MongoDB mongoDB;
     private final Storage storage;
 
@@ -33,25 +30,16 @@ public class DevRoomTickets {
         builder.addEventListeners(new Events(this));
         jda = builder.build().awaitReady();
 
-        // PostgreSQL is required by the BotCommands library as an interaction db
-        postgreSQL = new PostgreSQL(this).initialize(
-                config.getString("postgresql-hostname"),
-                config.getInt("postgresql-port"),
-                config.getString("postgresql-username"),
-                config.getString("postgresql-database"),
-                config.getString("postgresql-password")
-        );
         mongoDB = new MongoDB(this).initialize(
-                config.getString("mongodb-hostname"),
-                config.getInt("mongodb-port"),
-                config.getString("mongodb-username"),
-                config.getString("mongodb-database"),
-                config.getString("mongodb-password")
+                config.getString("hostname"),
+                config.getInt("port"),
+                config.getString("username"),
+                config.getString("database"),
+                config.getString("password")
         );
         storage = new Storage(this);
 
         CommandsBuilder.newBuilder(485434705903222805L)
-                .setComponentManager(new DefaultComponentManager(postgreSQL::getConnection))
                 .extensionsBuilder(extensionsBuilder ->
                         extensionsBuilder.registerConstructorParameter(DevRoomTickets.class, ignored -> this)).
                 build(jda,
@@ -102,10 +90,6 @@ public class DevRoomTickets {
 
     public JDA getJDA() {
         return jda;
-    }
-
-    public PostgreSQL getPostgreSQL() {
-        return postgreSQL;
     }
 
     public MongoDB getMongoDB() {
