@@ -20,14 +20,11 @@ public class MongoDB {
         this.ticketBot = ticketBot;
     }
 
-    public MongoDB initialize(String hostname, int port, String username, String database, String password) {
-        ConnectionString connectionString = new ConnectionString("mongodb://" + hostname + ":" + port + "/");
-        MongoCredential mongoCredential = MongoCredential.createCredential(username, database, password.toCharArray());
+    public MongoDB initialize(String hostname, String username, String database, String password) {
+        ConnectionString connectionString = new ConnectionString("mongodb+srv://" + username + ":" + password + "@" + hostname + "/?retryWrites=true&w=majority");
 
         MongoClientSettings.Builder mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString);
-
-        mongoClientSettings.credential(mongoCredential);
 
         mongoClient = MongoClients.create(mongoClientSettings.build());
         mongoDatabase = mongoClient.getDatabase(database);
