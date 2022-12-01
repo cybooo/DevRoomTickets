@@ -5,13 +5,14 @@
   "postgresql-username": "",
   "postgresql-database": "",
   "postgresql-password": "",
-  "mongodb-hostname": "",
-  "mongodb-username": "",
-  "mongodb-database": "",
-  "mongodb-password": "",
+  "hostname": "",
+  "username": "",
+  "database": "",
+  "password": "",
   "ticketOptions": [
     "Ban Appeal",
     "Staff Application",
     "Player Report"
-  ]
+  ],
+  "roleToPing": ""
 }

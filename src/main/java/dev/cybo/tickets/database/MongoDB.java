@@ -29,10 +29,19 @@ public class MongoDB {
         mongoClient = MongoClients.create(mongoClientSettings.build());
         mongoDatabase = mongoClient.getDatabase(database);
 
-        mongoDatabase.createCollection("tickets");
-        
-        mongoDatabase.getCollection("tickets")
-                .insertOne(new Document("ticket_id", "0").append("ticket_author", "0"));
+        boolean exists = false;
+        for (String collectionName : mongoDatabase.listCollectionNames()) {
+            if (collectionName.equals("tickets")) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (!exists) {
+            mongoDatabase.createCollection("tickets");
+            mongoDatabase.getCollection("tickets")
+                    .insertOne(new Document("ticket_id", "0").append("ticket_author", "0"));
+        }
 
         return this;
     }

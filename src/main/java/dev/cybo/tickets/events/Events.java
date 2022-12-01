@@ -2,6 +2,7 @@ package dev.cybo.tickets.events;
 
 import dev.cybo.tickets.DevRoomTickets;
 import dev.cybo.tickets.objects.Ticket;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.channel.ChannelDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -27,6 +28,13 @@ public class Events extends ListenerAdapter {
                     if (ticket.getAuthorId().equals(event.getAuthor().getId())) {
                         ticketBot.getStorage().getAwaitingResponse().remove(ticketId);
                         event.getChannel().sendMessage("Thanks for the input! The team is gonna assist you soon.").queue();
+
+                        Role role = event.getGuild().getRoleById(ticketBot.getConfig().getString("roleToPing"));
+                        if (role != null) {
+                            event.getChannel().sendMessage(role.getAsMention()).queue();
+                        } else {
+                            System.out.println("The staff role to mention does not exist!");
+                        }
                         break;
                     }
                 }
